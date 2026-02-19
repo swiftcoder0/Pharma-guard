@@ -4,34 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PharmaGuard | AI Genomic Analysis</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
+
+        /* --- THE LANDING PAGE (COVERS EVERYTHING) --- */
+        #role-overlay {
+            position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column;
+            background: #0f172a; color: white; transition: opacity 0.5s ease;
+        }
+        .landing-logo { text-align: center; padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .split-container { display: flex; flex: 1; }
+        .split-panel { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; cursor: pointer; position: relative; transition: 0.4s; }
+        .split-panel:hover { background: rgba(56, 189, 248, 0.05); }
+        .profile-img { position: absolute; bottom: 0; height: 75%; object-fit: contain; pointer-events: none; }
+        .panel-content { position: relative; z-index: 10; margin-bottom: 60px; text-align: center; }
+        .mode-btn { padding: 16px 32px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; color: white; }
+        .doctor-btn { background: #2563eb; }
+        .patient-btn { background: #0d9488; }
+
+        /* --- DOCTOR DASHBOARD (GRID DESIGN) --- */
+        .dashboard-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .doc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .badge { background: #e2e8f0; color: #475569; padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 0.8rem; }
+
+        .doc-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1.5fr !important;
+            gap: 30px; align-items: start;
+        }
+
+        .card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
+        .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 25px; color: #334155; border-bottom: 2px solid #f8fafc; padding-bottom: 10px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: #64748b; }
+        .form-group input { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; font-size: 1rem; }
+
+        .doc-analyze-btn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 1.1rem; }
+        .doc-analyze-btn:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+        /* RESULTS SECTION */
+        .status-banner { padding: 25px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .bg-toxic { background: #ef4444; }
+        .bg-safe { background: #22c55e; }
+        .ai-summary { background: #f8fafc; padding: 20px; border-left: 4px solid #2563eb; margin-bottom: 25px; }
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .tech-item { background: white; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .tech-item strong { display: block; font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
+        .tech-item span { font-weight: 700; color: #1e293b; font-size: 1rem; }
+
+        /* --- PATIENT APP (DARK MODE) --- */
+        .patient-dark-app { background: #0f172a; min-height: 100vh; color: white; padding: 40px 20px; }
+        .patient-container { max-width: 650px; margin: 0 auto; }
+        .header-text h1 { font-size: 2.8rem; margin: 10px 0; }
+        .header-text h1 strong { color: #2dd4bf; }
+        .patient-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .pat-input { width: 100%; background: #000; border: 1px solid #334155; color: white; padding: 15px; border-radius: 10px; font-size: 1rem; }
+        .pat-analyze-btn { width: 100%; padding: 18px; background: linear-gradient(90deg, #2dd4bf, #0d9488); border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; }
+
+        @media (max-width: 850px) { .doc-grid { grid-template-columns: 1fr !important; } }
+    </style>
 </head>
 <body>
 
-    <div id="role-overlay" class="premium-landing">
-        <div class="landing-logo">
-            <h2>🧬 PharmaGuard</h2>
-        </div>
-
+    <div id="role-overlay">
+        <div class="landing-logo"><h2>🧬 PharmaGuard</h2></div>
         <div class="split-container">
-            <div class="split-panel doctor-side" onclick="selectRole('doctor')">
-                <img src="doctors.png" alt="Doctors" class="profile-img">
+            <div class="split-panel" onclick="selectRole('doctor')">
+                <img src="doctors.png" class="profile-img" alt="Doctors">
                 <div class="panel-content">
                     <h3>Enter as <strong>Clinician</strong></h3>
                     <button class="mode-btn doctor-btn">DOCTOR MODE</button>
                 </div>
             </div>
-
-            <div class="split-panel patient-side" onclick="selectRole('patient')">
-                <img src="patients.png" alt="Patients" class="profile-img">
+            <div class="split-panel" onclick="selectRole('patient')">
+                <img src="patients.png" class="profile-img" alt="Patients">
                 <div class="panel-content">
                     <h3>Check Your <strong>Safety</strong></h3>
                     <button class="mode-btn patient-btn">PATIENT MODE</button>
                 </div>
             </div>
         </div>
-
-        <div class="landing-footer">
+        <div class="landing-footer" style="text-align: center; padding: 20px; color: #94a3b8;">
             <p>Roll No: 2410013155007 | Aditya Nath Pandey</p>
         </div>
     </div>
@@ -43,11 +99,10 @@
                     <h1>Clinical Analysis Dashboard</h1>
                     <p>Genomic Data Interpretation Engine</p>
                 </div>
-                <div class="badge">👨‍⚕️ Authorized Personnel Only</div>
+                <div class="badge">👨‍⚕️ Authorized Mode</div>
             </header>
-
             <main class="doc-grid">
-                <section class="card input-section">
+                <section class="card">
                     <div class="section-title">Patient Diagnostics</div>
                     <div class="form-group">
                         <label>Genomic Data (.vcf)</label>
@@ -59,30 +114,13 @@
                     </div>
                     <button class="doc-analyze-btn" onclick="analyzeDNA(event, 'doctor')">RUN SYSTEM SCAN</button>
                 </section>
-
-                <section id="doc-results" class="card results-section" style="display: none;">
-                    <div id="doc-banner" class="status-banner">
-                        <h1 id="doc-status">PENDING</h1>
-                    </div>
-                    
-                    <div class="ai-summary">
-                        <h3>Clinical Interpretation</h3>
-                        <p id="doc-ai">-</p>
-                    </div>
-
+                <section id="doc-results" class="card" style="display: none;">
+                    <div id="doc-banner" class="status-banner"><h1>PENDING</h1></div>
+                    <div class="ai-summary"><h3>Clinical Interpretation</h3><p id="doc-ai">-</p></div>
                     <div class="tech-grid">
-                        <div class="tech-item">
-                            <strong>Gene Target</strong>
-                            <span id="doc-gene">-</span>
-                        </div>
-                        <div class="tech-item">
-                            <strong>Phenotype</strong>
-                            <span id="doc-pheno">-</span>
-                        </div>
-                        <div class="tech-item full-width">
-                            <strong>Recommended Action</strong>
-                            <span id="doc-rec">-</span>
-                        </div>
+                        <div class="tech-item"><strong>Gene Target</strong><span id="doc-gene">-</span></div>
+                        <div class="tech-item"><strong>Phenotype</strong><span id="doc-pheno">-</span></div>
+                        <div class="tech-item" style="grid-column: span 2;"><strong>Dosage Action</strong><span id="doc-rec">-</span></div>
                     </div>
                 </section>
             </main>
@@ -91,39 +129,40 @@
 
     <div id="patient-view" class="patient-dark-app" style="display: none;">
         <div class="patient-container">
-            <header class="patient-header">
-                <div class="header-text">
-                    <h2>🧬 PharmaGuard</h2>
-                    <h1>Safe<strong>Meds</strong></h1>
-                    <p>Analyze your DNA for medication safety</p>
-                </div>
-                <img src="patients.png" class="patient-header-img" alt="Patients">
+            <header class="header-text" style="margin-bottom: 40px;">
+                <h2>🧬 PharmaGuard</h2>
+                <h1>Safe<strong>Meds</strong></h1>
+                <p>Personalized safety analysis based on your DNA</p>
             </header>
-
             <div class="patient-card">
-                <label>1. Search Medicine</label>
+                <label>1. Medicine Name</label>
                 <input type="text" id="pat-drug" placeholder="e.g. Disprin" class="pat-input">
             </div>
-
             <div class="patient-card">
                 <label>2. DNA Upload</label>
-                <div class="upload-box">
-                    <span>☁️</span>
-                    <p>Click to upload your .vcf file</p>
-                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf">
-                </div>
+                <input type="file" id="pat-vcf" accept=".vcf" style="margin-bottom: 20px;">
                 <button class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">ANALYZE MY SAFETY</button>
             </div>
-
-            <div id="pat-results" class="patient-card result-glow" style="display: none;">
-                <h2 id="pat-status">-</h2>
-                <div class="patient-ai-box">
-                    <p id="pat-ai">-</p>
-                </div>
+            <div id="pat-results" class="patient-card" style="display: none; border: 2px solid #2dd4bf;">
+                <h2 id="pat-status" style="text-align: center; margin-bottom: 10px;">-</h2>
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;"><p id="pat-ai" style="text-align: center; line-height: 1.6;">-</p></div>
             </div>
         </div>
     </div>
 
+    <script>
+        function selectRole(role) {
+            // This line removes the landing page so you can see the forms!
+            document.getElementById('role-overlay').style.display = 'none';
+            if (role === 'doctor') {
+                document.getElementById('doctor-view').style.display = 'block';
+                document.getElementById('patient-view').style.display = 'none';
+            } else {
+                document.getElementById('patient-view').style.display = 'block';
+                document.getElementById('doctor-view').style.display = 'none';
+            }
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
