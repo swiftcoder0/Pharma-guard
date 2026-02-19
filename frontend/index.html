@@ -36,14 +36,15 @@
         </div>
     </div>
 
-   <div id="doctor-view" style="display: none;">
+    <div id="doctor-view" style="display: none;">
         <div class="dashboard-container">
             <header>
                 <h2>PharmaGuard Clinical Dashboard</h2>
-                <p class="badge" style="background:#2563eb;">👨‍⚕️ Doctor Mode</p>
+                <p class="badge" style="background:#2980b9;">👨‍⚕️ Doctor Mode</p>
             </header>
-            <main class="doc-grid"> <div class="card input-section">
-                    <h3>Patient Diagnostics</h3>
+            <main>
+                <div class="card input-section">
+                    <h3>Upload Patient Data</h3>
                     <div class="form-group">
                         <label>Genomic Data (.vcf)</label>
                         <input type="file" id="doc-vcf" accept=".vcf">
@@ -64,18 +65,9 @@
                         <p id="doc-ai">-</p>
                     </div>
                     <div class="technical-details">
-                        <div class="tech-item">
-                            <strong>Primary Gene</strong>
-                            <span id="doc-gene">-</span>
-                        </div>
-                        <div class="tech-item">
-                            <strong>Phenotype</strong>
-                            <span id="doc-pheno">-</span>
-                        </div>
-                        <div class="tech-item" style="grid-column: span 2;">
-                            <strong>Clinical Recommendation</strong>
-                            <span id="doc-rec">-</span>
-                        </div>
+                        <p><strong>Primary Gene:</strong> <span id="doc-gene">-</span></p>
+                        <p><strong>Phenotype:</strong> <span id="doc-pheno">-</span></p>
+                        <p><strong>Recommendation:</strong> <span id="doc-rec">-</span></p>
                     </div>
                 </div>
             </main>
