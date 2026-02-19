@@ -68,7 +68,8 @@ async function analyzeDNA(event, role) {
     formData.append("role", role); 
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/analyze", {
+         // Make sure you keep the /analyze at the very end!
+         const response = await fetch("https://https://pharma-guard-outj.onrender.com.onrender.com/analyze", {
             method: "POST", body: formData
         });
 
