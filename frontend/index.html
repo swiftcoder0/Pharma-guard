@@ -12,63 +12,83 @@
         <div class="landing-logo">
             <h2>🧬 PharmaGuard</h2>
         </div>
-
         <div class="split-container">
             <div class="split-panel doctor-side" onclick="selectRole('doctor')">
                 <img src="doctors.png" alt="Doctors" class="profile-img">
                 <div class="panel-content">
-                    <h3>Enter as <strong>Doctors</strong></h3>
+                    <h3>Enter as <strong>Clinician</strong></h3>
                     <button class="mode-btn doctor-btn">DOCTOR MODE</button>
                 </div>
             </div>
-
             <div class="split-panel patient-side" onclick="selectRole('patient')">
                 <img src="patients.png" alt="Patients" class="profile-img">
                 <div class="panel-content">
-                    <h3>Enter as <strong>Patient</strong></h3>
+                    <h3>Check Your <strong>Safety</strong></h3>
                     <button class="mode-btn patient-btn">PATIENT MODE</button>
                 </div>
             </div>
         </div>
-
         <div class="landing-footer">
-            <p>Personalized Medicine, Tailored Advice.</p>
+            <p>Personalized Genomic Medicine | Aditya Nath Pandey</p>
         </div>
     </div>
 
-    <div id="doctor-view" style="display: none;">
-        <div class="dashboard-container">
-            <header>
-                <h2>PharmaGuard Clinical Dashboard</h2>
-                <p class="badge" style="background:#2980b9;">👨‍⚕️ Doctor Mode</p>
-            </header>
-            <main>
-                <div class="card input-section">
-                    <h3>Upload Patient Data</h3>
-                    <div class="form-group">
-                        <label>Genomic Data (.vcf)</label>
-                        <input type="file" id="doc-vcf" accept=".vcf">
-                    </div>
-                    <div class="form-group">
-                        <label>Target Medicine</label>
-                        <input type="text" id="doc-drug" placeholder="e.g., WARFARIN">
-                    </div>
-                    <button type="button" id="doc-btn" class="doc-analyze-btn" onclick="analyzeDNA(event, 'doctor')">Analyze DNA</button>
-                </div>
+    <div id="doctor-view" class="clinical-theme" style="display: none;">
+        <nav class="clinical-nav">
+            <div class="nav-brand">🧬 PharmaGuard <span>Clinical Terminal</span></div>
+            <div class="nav-badge">Secure Access: Authorized Personnel</div>
+        </nav>
 
-                <div id="doc-results" class="card results-section" style="display: none;">
-                    <div id="doc-banner" class="status-banner">
-                        <h1 id="doc-status">PENDING</h1>
+        <div class="clinical-workspace">
+            
+            <aside class="clinical-sidebar">
+                <div class="sidebar-header">
+                    <h3>New Analysis</h3>
+                </div>
+                <div class="clinical-form-group">
+                    <label>Genomic Data File (.vcf)</label>
+                    <input type="file" id="doc-vcf" accept=".vcf" class="clinical-input">
+                </div>
+                <div class="clinical-form-group">
+                    <label>Target Medication</label>
+                    <input type="text" id="doc-drug" placeholder="Enter drug name (e.g., WARFARIN)" class="clinical-input">
+                </div>
+                <button class="clinical-btn-primary" onclick="analyzeDNA(event, 'doctor')">
+                    Run AI Clinical Scan
+                </button>
+            </aside>
+
+            <main class="clinical-mainboard">
+                <div id="doc-results" class="results-container" style="display: none;">
+                    
+                    <div id="doc-banner" class="clinical-status-banner">
+                        <h2 id="doc-status">PENDING ANALYSIS</h2>
                     </div>
-                    <div class="ai-summary">
-                        <h3>Clinical Summary</h3>
-                        <p id="doc-ai">-</p>
+
+                    <div class="clinical-ai-summary">
+                        <h4>AI Interpretation Report</h4>
+                        <p id="doc-ai">Awaiting data...</p>
                     </div>
-                    <div class="technical-details">
-                        <p><strong>Primary Gene:</strong> <span id="doc-gene">-</span></p>
-                        <p><strong>Phenotype:</strong> <span id="doc-pheno">-</span></p>
-                        <p><strong>Recommendation:</strong> <span id="doc-rec">-</span></p>
+
+                    <div class="clinical-tech-grid">
+                        <div class="tech-card">
+                            <span class="tech-label">Primary Gene</span>
+                            <strong id="doc-gene" class="tech-value">-</strong>
+                        </div>
+                        <div class="tech-card">
+                            <span class="tech-label">Metabolizer Phenotype</span>
+                            <strong id="doc-pheno" class="tech-value">-</strong>
+                        </div>
+                        <div class="tech-card full-width">
+                            <span class="tech-label">Clinical Recommendation</span>
+                            <strong id="doc-rec" class="tech-value">-</strong>
+                        </div>
                     </div>
+
+                </div>
+                
+                <div id="doc-placeholder" class="empty-state">
+                    <p>Select a patient VCF file and target medication to begin genomic analysis.</p>
                 </div>
             </main>
         </div>
@@ -76,39 +96,48 @@
 
     <div id="patient-view" class="patient-dark-app" style="display: none;">
         <div class="patient-container">
-            <div class="patient-header">
+            <header class="patient-header">
                 <div class="header-text">
                     <h2>🧬 PharmaGuard</h2>
-                    <h1>Welcome to<br><strong>Patient Mode</strong></h1>
-                    <p>Safely check how medications interact with your DNA</p>
+                    <h1>Safe<strong>Meds</strong></h1>
+                    <p>Check medication safety against your DNA</p>
                 </div>
                 <img src="patients.png" class="patient-header-img" alt="Patients">
-            </div>
-
+            </header>
             <div class="patient-card">
-                <label>1. Enter Medicine Name</label>
-                <input type="text" id="pat-drug" placeholder="e.g. Simvastatin" class="pat-input">
+                <label>1. Medicine Name</label>
+                <input type="text" id="pat-drug" placeholder="e.g. Disprin" class="pat-input">
             </div>
-
             <div class="patient-card">
-                <label>2. Upload Your DNA File</label>
+                <label>2. DNA Upload</label>
                 <div class="upload-box">
-                    <span id="upload-icon">☁️</span>
-                    <p id="upload-text">Drag & drop your VCF file here or <br><strong>click to upload (.vcf)</strong></p>
-                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf" onchange="updateFileName(this)">
+                    <span>☁️</span>
+                    <p>Click to upload your .vcf file</p>
+                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf">
                 </div>
-                <button type="button" id="pat-btn" class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">🧬 ANALYZE SAFETY</button>
+                <button class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">ANALYZE MY SAFETY</button>
             </div>
-
-            <div id="pat-results" class="patient-card" style="display: none; margin-top: 30px;">
-                <h2 id="pat-status" style="text-align: center; margin-bottom: 15px; font-size: 1.8rem;">-</h2>
-                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px;">
-                    <p id="pat-ai" style="font-size: 1.1rem; line-height: 1.6; text-align: center; color: #e2e8f0;">-</p>
+            <div id="pat-results" class="patient-card result-glow" style="display: none;">
+                <h2 id="pat-status" style="text-align: center;">-</h2>
+                <div class="patient-ai-box">
+                    <p id="pat-ai">-</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function selectRole(role) {
+            document.getElementById('role-overlay').style.display = 'none';
+            if (role === 'doctor') {
+                document.getElementById('doctor-view').style.display = 'block';
+                document.getElementById('patient-view').style.display = 'none';
+            } else {
+                document.getElementById('patient-view').style.display = 'block';
+                document.getElementById('doctor-view').style.display = 'none';
+            }
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
