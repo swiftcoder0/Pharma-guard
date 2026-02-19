@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaGuard | AI Genomic Analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="role-overlay" class="premium-landing">
+        <div class="landing-logo">
+            <h2>🧬 PharmaGuard</h2>
+        </div>
+
+        <div class="split-container">
+            <div class="split-panel doctor-side" onclick="selectRole('doctor')">
+                <img src="doctors.png" alt="Doctors" class="profile-img">
+                <div class="panel-content">
+                    <h3>Enter as <strong>Doctors</strong></h3>
+                    <button class="mode-btn doctor-btn">DOCTOR MODE</button>
+                </div>
+            </div>
+
+            <div class="split-panel patient-side" onclick="selectRole('patient')">
+                <img src="patients.png" alt="Patients" class="profile-img">
+                <div class="panel-content">
+                    <h3>Enter as <strong>Patient</strong></h3>
+                    <button class="mode-btn patient-btn">PATIENT MODE</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="landing-footer">
+            <p>Personalized Medicine, Tailored Advice.</p>
+        </div>
+    </div>
+
+    <div id="doctor-view" style="display: none;">
+        <div class="dashboard-container">
+            <header>
+                <h2>PharmaGuard Clinical Dashboard</h2>
+                <p class="badge" style="background:#2980b9;">👨‍⚕️ Doctor Mode</p>
+            </header>
+            <main>
+                <div class="card input-section">
+                    <h3>Upload Patient Data</h3>
+                    <div class="form-group">
+                        <label>Genomic Data (.vcf)</label>
+                        <input type="file" id="doc-vcf" accept=".vcf">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Medicine</label>
+                        <input type="text" id="doc-drug" placeholder="e.g., WARFARIN">
+                    </div>
+                    <button type="button" id="doc-btn" class="doc-analyze-btn" onclick="analyzeDNA(event, 'doctor')">Analyze DNA</button>
+                </div>
+
+                <div id="doc-results" class="card results-section" style="display: none;">
+                    <div id="doc-banner" class="status-banner">
+                        <h1 id="doc-status">PENDING</h1>
+                    </div>
+                    <div class="ai-summary">
+                        <h3>Clinical Summary</h3>
+                        <p id="doc-ai">-</p>
+                    </div>
+                    <div class="technical-details">
+                        <p><strong>Primary Gene:</strong> <span id="doc-gene">-</span></p>
+                        <p><strong>Phenotype:</strong> <span id="doc-pheno">-</span></p>
+                        <p><strong>Recommendation:</strong> <span id="doc-rec">-</span></p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="patient-view" class="patient-dark-app" style="display: none;">
+        <div class="patient-container">
+            <div class="patient-header">
+                <div class="header-text">
+                    <h2>🧬 PharmaGuard</h2>
+                    <h1>Welcome to<br><strong>Patient Mode</strong></h1>
+                    <p>Safely check how medications interact with your DNA</p>
+                </div>
+                <img src="patients.png" class="patient-header-img" alt="Patients">
+            </div>
+
+            <div class="patient-card">
+                <label>1. Enter Medicine Name</label>
+                <input type="text" id="pat-drug" placeholder="e.g. Simvastatin" class="pat-input">
+            </div>
+
+            <div class="patient-card">
+                <label>2. Upload Your DNA File</label>
+                <div class="upload-box">
+                    <span id="upload-icon">☁️</span>
+                    <p id="upload-text">Drag & drop your VCF file here or <br><strong>click to upload (.vcf)</strong></p>
+                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf" onchange="updateFileName(this)">
+                </div>
+                <button type="button" id="pat-btn" class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">🧬 ANALYZE SAFETY</button>
+            </div>
+
+            <div id="pat-results" class="patient-card" style="display: none; margin-top: 30px;">
+                <h2 id="pat-status" style="text-align: center; margin-bottom: 15px; font-size: 1.8rem;">-</h2>
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px;">
+                    <p id="pat-ai" style="font-size: 1.1rem; line-height: 1.6; text-align: center; color: #e2e8f0;">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
