@@ -69,7 +69,7 @@ async function analyzeDNA(event, role) {
 
     try {
          // Make sure you keep the /analyze at the very end!
-         const response = await fetch("https://pharma-guard-outj.onrender.com.onrender.com/analyze", {
+         const response = await fetch("https://pharma-guard-outj.onrender.com/analyze", {
             method: "POST", body: formData
         });
 
