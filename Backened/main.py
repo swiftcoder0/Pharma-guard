@@ -8,10 +8,19 @@ from schemas import PharmaGuardResponse
 from drug_map import normalize_drug
 from rules import GENE_DRUG_RULES, get_clinical_decision
 from dotenv import load_dotenv
+from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware  # <-- ADD THIS LINE
 
 # 1. Load Environment Variables
 load_dotenv()
 app = FastAPI() 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # This tells the bouncer to let your GitHub website in!
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 2. Enable CORS for Frontend Communication
 app.add_middleware(
