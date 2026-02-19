@@ -1,77 +1,116 @@
-/* ================= GLOBAL RESET ================= */
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-body { overflow-x: hidden; }
+/* --- GLOBAL STYLES --- */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #f4f7f6; color: #333; }
 
-/* ================= 1. LANDING PAGE ================= */
-.premium-landing { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; background: #0f172a; color: white; }
-.landing-logo { text-align: center; padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.split-container { display: flex; flex: 1; position: relative; }
-.split-panel { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; cursor: pointer; transition: 0.3s; position: relative; }
+/* =========================================
+   PREMIUM LANDING PAGE
+   ========================================= */
+.premium-landing {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    z-index: 9999; display: flex; flex-direction: column;
+    color: white; transition: opacity 0.5s ease;
+}
+.landing-logo { text-align: center; padding: 40px 0; font-size: 1.5rem; letter-spacing: 1px; z-index: 20; }
+.landing-logo h2 { color: #38bdf8; margin: 0; font-weight: 600; }
+.split-container { display: flex; flex: 1; width: 100%; position: relative; }
+.split-container::after {
+    content: ''; position: absolute; top: 5%; left: 50%; width: 1px; height: 90%; background: rgba(255,255,255,0.2); z-index: 20;
+}
+.split-panel {
+    flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    cursor: pointer; transition: background 0.3s ease; position: relative; overflow: hidden;
+}
 .split-panel:hover { background: rgba(255,255,255,0.05); }
-.profile-img { position: absolute; bottom: 0; height: 75%; object-fit: contain; pointer-events: none; }
-.panel-content { position: relative; z-index: 10; margin-bottom: 60px; text-align: center; }
-.mode-btn { padding: 16px 32px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; }
-.doctor-btn { background: #2563eb; }
-.patient-btn { background: #0d9488; }
-.landing-footer { text-align: center; padding: 20px; color: #94a3b8; }
 
-/* ================= 2. DOCTOR VIEW (ISOLATED THEME) ================= */
-.clinical-theme { background-color: #f1f5f9; min-height: 100vh; color: #1e293b; }
+.profile-img {
+    position: absolute; bottom: 0; height: 75%; object-fit: contain; z-index: 1;
+    transition: transform 0.4s ease; pointer-events: none;
+}
+.split-panel:hover .profile-img { transform: scale(1.05); }
 
-/* Clinical Navbar */
-.clinical-theme .clinical-nav { background: #ffffff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-.clinical-theme .nav-brand { font-size: 1.2rem; font-weight: bold; color: #0f172a; }
-.clinical-theme .nav-brand span { color: #64748b; font-weight: normal; margin-left: 10px; }
-.clinical-theme .nav-badge { background: #e0e7ff; color: #3730a3; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.panel-content { position: relative; z-index: 10; margin-bottom: 80px; text-align: center; }
+.panel-content h3 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 400; color: #cbd5e1; }
+.doctor-side h3 strong { font-weight: 700; color: white; }
+.patient-side h3 strong { color: #2dd4bf; }
 
-/* Clinical Workspace Grid */
-.clinical-theme .clinical-workspace { display: grid; grid-template-columns: 350px 1fr; gap: 30px; max-width: 1400px; margin: 30px auto; padding: 0 20px; align-items: start; }
+.mode-btn {
+    padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s; color: white;
+}
+.doctor-btn { background: linear-gradient(90deg, #3b82f6, #2563eb); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+.patient-btn { background: linear-gradient(90deg, #2dd4bf, #0d9488); box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4); }
+.mode-btn:hover { transform: scale(1.05); }
+.landing-footer { text-align: center; padding: 20px; font-size: 1rem; color: #94a3b8; z-index: 20; }
 
-/* Left Sidebar (Inputs) */
-.clinical-theme .clinical-sidebar { background: white; border-radius: 12px; padding: 25px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-.clinical-theme .sidebar-header { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; }
-.clinical-theme .sidebar-header h3 { font-size: 1.1rem; color: #0f172a; }
-.clinical-theme .clinical-form-group { margin-bottom: 20px; }
-.clinical-theme .clinical-form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-.clinical-theme .clinical-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc; font-size: 0.95rem; color: #1e293b; transition: 0.2s; }
-.clinical-theme .clinical-input:focus { outline: none; border-color: #2563eb; background: white; }
-.clinical-theme .clinical-btn-primary { width: 100%; padding: 14px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-.clinical-theme .clinical-btn-primary:hover { background: #1d4ed8; }
+/* =========================================
+   DOCTOR VIEW (Light Mode)
+   ========================================= */
+.dashboard-container { max-width: 900px; margin: 40px auto; padding: 20px; }
+.dashboard-container header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.badge { background: #333; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
 
-/* Right Main Board (Results) */
-.clinical-theme .clinical-mainboard { background: white; border-radius: 12px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); min-height: 500px; }
-.clinical-theme .empty-state { text-align: center; color: #94a3b8; margin-top: 100px; font-size: 1.1rem; }
+.card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #555; }
+.form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
 
-.clinical-theme .clinical-status-banner { padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; background: #f1f5f9; color: #475569; }
-.clinical-theme .clinical-status-banner.bg-safe { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-.clinical-theme .clinical-status-banner.bg-toxic { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.doc-analyze-btn {
+    background-color: #2980b9; color: white; border: none; padding: 15px 20px;
+    width: 100%; border-radius: 6px; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+}
+.doc-analyze-btn:hover { background-color: #1c5980; }
 
-.clinical-theme .clinical-ai-summary { background: #f8fafc; padding: 25px; border-left: 4px solid #2563eb; border-radius: 0 8px 8px 0; margin-bottom: 30px; }
-.clinical-theme .clinical-ai-summary h4 { color: #64748b; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px; }
-.clinical-theme .clinical-ai-summary p { font-size: 1.1rem; line-height: 1.6; color: #1e293b; }
+.status-banner { padding: 20px; border-radius: 8px; text-align: center; color: white; margin-bottom: 20px; transition: 0.5s; }
+.status-banner h1 { margin: 0; font-size: 2rem; letter-spacing: 1px; }
+.bg-toxic { background-color: #e74c3c; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4); }
+.bg-safe { background-color: #2ecc71; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); }
 
-.clinical-theme .clinical-tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.clinical-theme .tech-card { padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; }
-.clinical-theme .tech-label { display: block; font-size: 0.8rem; color: #64748b; text-transform: uppercase; margin-bottom: 8px; }
-.clinical-theme .tech-value { font-size: 1.2rem; color: #0f172a; }
-.clinical-theme .full-width { grid-column: span 2; }
+.ai-summary { background: #f8f9fa; padding: 15px; border-left: 4px solid #2980b9; margin-bottom: 20px; }
+.ai-summary p { font-size: 1.1rem; line-height: 1.6; color: #333; }
+.technical-details p { margin-bottom: 8px; font-size: 1rem; color: #555; }
 
-@media (max-width: 950px) { .clinical-theme .clinical-workspace { grid-template-columns: 1fr; } }
+/* =========================================
+   PATIENT VIEW (Dark Mode)
+   ========================================= */
+.patient-dark-app {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    min-height: 100vh; color: white; padding-bottom: 50px;
+}
+.patient-container { max-width: 650px; margin: 0 auto; padding: 40px 20px; }
 
+.patient-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; position: relative; }
+.header-text h2 { color: #38bdf8; font-size: 1.2rem; margin-bottom: 20px; }
+.header-text h1 { font-size: 2.5rem; font-weight: 300; margin-bottom: 10px; }
+.header-text h1 strong { font-weight: 700; }
+.header-text p { color: #cbd5e1; font-size: 1.1rem; }
+.patient-header-img { height: 180px; position: absolute; right: -20px; bottom: -20px; }
 
-/* ================= 3. PATIENT VIEW (ISOLATED THEME) ================= */
-.patient-dark-app { background: #0f172a; min-height: 100vh; color: white; padding: 40px 20px; }
-.patient-dark-app .patient-container { max-width: 650px; margin: 0 auto; }
-.patient-dark-app .patient-header { position: relative; margin-bottom: 40px; }
-.patient-dark-app .header-text h2 { color: #38bdf8; font-size: 1.2rem; }
-.patient-dark-app .header-text h1 { font-size: 2.8rem; margin: 10px 0; }
-.patient-dark-app .header-text h1 strong { color: #2dd4bf; }
-.patient-dark-app .patient-header-img { position: absolute; right: 0; bottom: 0; height: 120px; opacity: 0.8; }
-.patient-dark-app .patient-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px); }
-.patient-dark-app label { display: block; font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: #e2e8f0; }
-.patient-dark-app .pat-input { width: 100%; background: #000; border: 1px solid #334155; color: white; padding: 15px; border-radius: 10px; font-size: 1rem; }
-.patient-dark-app .upload-box { border: 2px dashed rgba(255,255,255,0.2); padding: 30px; text-align: center; border-radius: 10px; position: relative; margin-bottom: 20px; }
-.patient-dark-app .hidden-upload { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-.patient-dark-app .pat-analyze-btn { width: 100%; padding: 18px; background: linear-gradient(90deg, #2dd4bf, #0d9488); border: none; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; font-size: 1.1rem; }
-.patient-dark-app .result-glow { border-color: #2dd4bf; box-shadow: 0 0 20px rgba(45, 212, 191, 0.1); }
-.patient-dark-app .patient-ai-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin-top: 15px; }
+.patient-card {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px);
+}
+.patient-card label { display: block; font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; color: #e2e8f0; }
+
+.pat-input {
+    width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 15px; border-radius: 8px; font-size: 1.1rem;
+}
+.pat-input:focus { outline: none; border-color: #38bdf8; }
+
+.upload-box {
+    border: 2px dashed rgba(255,255,255,0.3); border-radius: 12px; padding: 40px 20px;
+    text-align: center; margin-bottom: 20px; position: relative; transition: 0.3s;
+}
+.upload-box:hover { border-color: #38bdf8; background: rgba(255,255,255,0.02); }
+.upload-box span { font-size: 2.5rem; }
+.upload-box p { color: #cbd5e1; margin-top: 10px; font-size: 1.1rem; }
+.hidden-upload { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+.pat-analyze-btn {
+    width: 100%; background: linear-gradient(90deg, #2dd4bf, #0d9488);
+    border: none; padding: 18px; border-radius: 8px; color: white;
+    font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+    transition: transform 0.2s;
+}
+.pat-analyze-btn:hover { transform: scale(1.02); }
