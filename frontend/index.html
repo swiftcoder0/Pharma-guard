@@ -7,10 +7,10 @@
     <style>
         /* ================= PREMIUM GLOBAL RESET ================= */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { overflow-x: hidden; background-color: #f4f7fb; color: #1e293b; }
+        body { overflow-x: hidden; background-color: #f4f7fb; color: #1e293b; transition: background-color 0.5s ease; }
 
         /* ================= 1. PREMIUM SPLIT LANDING ================= */
-        .premium-landing { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: white; }
+        .premium-landing { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: white; transition: opacity 0.5s ease; }
         .landing-logo { text-align: center; padding: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .landing-logo h2 { font-size: 2rem; font-weight: 800; letter-spacing: 1px; color: #38bdf8; }
         .split-container { display: flex; flex: 1; position: relative; }
@@ -34,7 +34,6 @@
 
         .clinical-workspace { display: grid; grid-template-columns: 380px 1fr; gap: 40px; max-width: 1400px; margin: 40px auto; padding: 0 30px; align-items: start; }
 
-        /* Glassmorphism Cards */
         .glass-card { background: #ffffff; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.04); border: 1px solid rgba(226, 232, 240, 0.8); }
         
         .sidebar-header h3 { font-size: 1.3rem; color: #0f172a; margin-bottom: 25px; font-weight: 700; }
@@ -46,13 +45,12 @@
         .clinical-btn-primary { width: 100%; padding: 18px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); margin-top: 15px; }
         .clinical-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3); }
 
-        /* Results Board */
         .results-container { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .clinical-status-banner { padding: 25px; border-radius: 16px; text-align: center; margin-bottom: 30px; font-weight: 800; letter-spacing: 1px; }
-        .bg-safe { background: #ecfdf5; color: #059669; border: 2px solid #34d399; }
-        .bg-toxic { background: #fef2f2; color: #dc2626; border: 2px solid #f87171; }
+        .status-banner { padding: 25px; border-radius: 16px; text-align: center; margin-bottom: 30px; font-weight: 800; letter-spacing: 1px; }
+        .bg-safe { background: #ecfdf5 !important; color: #059669 !important; border: 2px solid #34d399 !important; }
+        .bg-toxic { background: #fef2f2 !important; color: #dc2626 !important; border: 2px solid #f87171 !important; }
         .bg-pending { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
 
         .clinical-ai-summary { background: #f8fafc; padding: 30px; border-left: 5px solid #3b82f6; border-radius: 12px; margin-bottom: 35px; }
@@ -77,11 +75,14 @@
         .patient-card label { display: block; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; color: #e2e8f0; }
         .pat-input { width: 100%; background: #020617; border: 2px solid #334155; color: white; padding: 18px; border-radius: 12px; font-size: 1.1rem; transition: 0.3s; }
         .pat-input:focus { outline: none; border-color: #2dd4bf; }
+        
         .upload-box { border: 2px dashed rgba(255,255,255,0.2); padding: 40px; text-align: center; border-radius: 16px; position: relative; margin-bottom: 25px; transition: 0.3s; }
         .upload-box:hover { border-color: #2dd4bf; background: rgba(45, 212, 191, 0.05); }
-        .hidden-upload { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+        .hidden-upload { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        
         .pat-analyze-btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #2dd4bf 0%, #0f766e 100%); border: none; border-radius: 16px; color: white; font-weight: 800; cursor: pointer; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(45, 212, 191, 0.3); transition: 0.3s; }
         .pat-analyze-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(45, 212, 191, 0.4); }
+        .patient-ai-box { background: rgba(0,0,0,0.3); padding: 25px; border-radius: 16px; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -114,7 +115,6 @@
         </nav>
         
         <div class="clinical-workspace">
-            
             <aside class="glass-card">
                 <div class="sidebar-header"><h3>New Genomic Analysis</h3></div>
                 <div class="clinical-form-group">
@@ -125,15 +125,14 @@
                     <label>Target Medication</label>
                     <input type="text" id="doc-drug" placeholder="e.g., WARFARIN" class="clinical-input">
                 </div>
-                <button type="button" class="clinical-btn-primary" onclick="analyzeDNA(event, 'doctor')">
+                <button type="button" id="doc-btn" class="clinical-btn-primary" onclick="analyzeDNA(event, 'doctor')">
                     🧬 RUN AI CLINICAL SCAN
                 </button>
             </aside>
 
             <main class="glass-card">
                 <div id="doc-results" class="results-container">
-                    
-                    <div id="doc-banner" class="clinical-status-banner bg-pending">
+                    <div id="doc-banner" class="status-banner bg-pending">
                         <h2 id="doc-status">WAITING FOR DATA...</h2>
                     </div>
 
@@ -168,41 +167,31 @@
                 <h1>Safe<strong>Meds</strong></h1>
                 <p style="color: #cbd5e1; font-size: 1.2rem;">Verify your medication against your unique DNA</p>
             </header>
+            
             <div class="patient-card">
                 <label>1. Medicine Name</label>
                 <input type="text" id="pat-drug" placeholder="e.g. Disprin" class="pat-input">
             </div>
+            
             <div class="patient-card">
                 <label>2. DNA Upload</label>
                 <div class="upload-box">
-                    <span style="font-size: 3rem;">☁️</span>
-                    <p style="color: #cbd5e1; margin-top: 10px;">Click to upload your .vcf file</p>
-                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf">
+                    <span id="upload-icon" style="font-size: 3rem;">☁️</span>
+                    <p id="upload-text" style="color: #cbd5e1; margin-top: 10px;">Click to upload your .vcf file</p>
+                    <input type="file" id="pat-vcf" class="hidden-upload" accept=".vcf,.csv" onchange="updateFileName(this)">
                 </div>
-                <button type="button" class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">ANALYZE MY SAFETY</button>
+                <button type="button" id="pat-btn" class="pat-analyze-btn" onclick="analyzeDNA(event, 'patient')">ANALYZE MY SAFETY</button>
             </div>
+            
             <div id="pat-results" class="patient-card" style="display: none; border: 2px solid #2dd4bf;">
                 <h2 id="pat-status" style="text-align: center; margin-bottom: 15px;">-</h2>
-                <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 16px;">
+                <div class="patient-ai-box">
                     <p id="pat-ai" style="text-align: center; line-height: 1.7; font-size: 1.1rem; color: #f8fafc;">-</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Handles switching between landing page and the two modes
-        function selectRole(role) {
-            document.getElementById('role-overlay').style.display = 'none';
-            if (role === 'doctor') {
-                document.getElementById('doctor-view').style.display = 'block';
-                document.getElementById('patient-view').style.display = 'none';
-            } else {
-                document.getElementById('patient-view').style.display = 'block';
-                document.getElementById('doctor-view').style.display = 'none';
-            }
-        }
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
